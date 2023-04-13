@@ -1,0 +1,13 @@
+1. Log DB Queries  Add thiese to AppServiceProvider:
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+    public function boot()
+    {
+        DB::listen(function ($query) {
+            // This function will be called each time a query is executed
+            Log::info($query->sql, $query->bindings, $query->time);
+        });
+    }
+

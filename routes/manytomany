@@ -1,0 +1,30 @@
+//post   - may have many tags
+//tags   - may have many posts
+
+
+How is this implemented?
+
+//To create a relationship between post and tag, use a third intermediate table, that is a PIVOT TABLE
+
+1. Create Post table
+   - Create  relation in Post model:
+   public function tags(){
+        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id');
+    }
+
+2. Create Tag table
+   - Create  relation in Tag model:
+   public function posts(){
+        return $this->belongsToMany(Posts::class, 'post_tag', 'post_id', 'tag_id');
+    }
+
+3. Craete pivot table post_tag as such :
+    php artisan make:migration create_post_tag_table --create=post_tag
+
+4. Create posts and tags and relate them
+
+    $tag = Tag::first();
+    $post = Posts::first();
+    $post->tags()->attach($tag)
+
+// What if I already have tags and post entries how can I relate them? Also what is the difference between pivot table and table viesws?
