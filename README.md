@@ -29,6 +29,14 @@ You can use a model observer to clear Cache if the model data is Cached whenever
         Model::observe(ModelObserver::class)
 
 
-Many to Many relationship 
+POLYPHORMIC RELATIONSHIPS
+Laravel has three types of Polyphormic relationships these are:
+   - One to One
+   - One to Many
+   - Many to Many
+
+Say we have Post Model and Video Model, a user can add Comments to both Posts and Videos
+How can you implement comment relation in Post and Video?
+  Create a new model COmment with columns, commentable_id e.g post_id and commentable_type e.g Post model
 
 

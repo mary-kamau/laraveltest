@@ -7,6 +7,8 @@ use  App\Models\Posts;
 use  App\Models\Tag;
 use  App\Models\Taks;
 use  App\Models\Project;
+use  App\Models\Video;
+use  App\Models\Comment;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +104,56 @@ use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 //This means it will run one time and remeber the result and whenever you call or resolve ypur binding it returns the exact same thing.
 
 Route::get('/', function () {
+    // $user = User::factory()->create();
+
+    // $post = Posts::create([
+    //     'user_id' => $user->id,
+    //     'title' => 'Example Post title',
+    // ]);
+
+    // //To create a comment for the post
+
+    // $post->comments()->create([
+    //     'user_id'=>$user->id,
+    //     'body'=>'Comment for post',
+    // ]);
+
+    // //How to retrieve comment using Posts model
+    // $post =  Posts::find(1);
+
+    // //Retrieve comments
+    // ///dd($post->comments);
+    
+    // //Add more comments to the post
+    // $post->comments()->create([
+    //     'user_id'=> 1,
+    //     'body'=>'Second comment for post',
+    // ]);
+    
+    //Add comments for video model as well
+    // $video = Video::create([
+    //     'title' => 'example video title',
+    // ]);
+    // $video->comments()->create([
+    //     'user_id'=> 1,
+    //     'body'=>'Comment for video',
+    // ]);
+
+    //Retrieve video comments
+    // $video = Video::find(1);
+    // dd($video->comments);
+
+    //Retrieve Commentable Model using the commentable method in Comment model.
+    $comment = Comment::find(1);
+    //dd($comment->commentable);
+
+    //You can also retrieve the Commentable model with subject method in the Comment model
+    dd($comment->subject);
+
+
+
+
+
     return view('welcome');
 });
 

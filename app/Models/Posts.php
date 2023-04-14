@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tag;
 use App\Models\PostTag;
+use App\Models\Comment;
 
 class Posts extends Model
 {
@@ -24,5 +25,9 @@ class Posts extends Model
         ->using(PostTag::class)
         ->withTimestamps()
         ->withPivot('status');
+    }
+
+    public function comments(){
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }
