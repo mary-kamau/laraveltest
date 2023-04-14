@@ -425,8 +425,71 @@ Route::get('/tags', function(){
 
 Route::get('/projects', function(){
 
-    $project =  Project::find(1);
+    //HasManyThrough using Pivot Table
+
+    // $project1 = Project::create([
+    //     'title' => 'Project A'
+    // ]);
+
+    // $project2 = Project::create([
+    //     'title' => 'Project B'
+    // ]);
+
+    // $user1= User::create([
+    //     "name" => 'User A',
+    //     "email" => 'userA@example.com',
+    //     "password" => Hash::make('pasword'),
+    // ]);
+
+    // $user2= User::create([
+    //     "name" => 'User B',
+    //     "email" => 'userB@example.com',
+    //     "password" => Hash::make('pasword'),
+    // ]);
+
+    // $user3= User::create([
+    //     "name" => 'User C',
+    //     "email" => 'userC@example.com',
+    //     "password" => Hash::make('pasword'),
+    // ]);
+
+    // $project1->users()->attach($user1);
+    // $project1->users()->attach($user2);
+    // $project1->users()->attach($user3);
+
+    // $project2->users()->attach($user1);
+    // $project2->users()->attach($user3);
+
+    // $project =  Project::find(27);
+    // return $project->users()->get();
+
+    // $user = User::find(18);
+    // return $user->projects()->get();
+
+    // Taks::create([
+    //     'title' => 'Task A',
+    //     'user_id' => 18
+    // ]);
+
+    // Taks::create([
+    //     'title' => 'Task B',
+    //     'user_id' => 18
+    // ]);
+    // Taks::create([
+    //     'title' => 'Task C',
+    //     'user_id' => 19
+    // ]);
+
+    // Taks::create([
+    //     'title' => 'Task D',
+    //     'user_id' => 20
+    // ]);
+
+    $project = Project::find(27);
     return $project->tasks()->get();
+
+
+
 
     //Fetch all tasks created by all the users of the project
 

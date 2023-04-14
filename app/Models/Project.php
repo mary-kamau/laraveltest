@@ -14,12 +14,19 @@ class Project extends Model
     protected $guarded =[];
 
     public function users(){
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function tasks(){
         //Returns collection of tasks
-        return $this->hasManyThrough(Taks::class, User::class, 'project_id', 'user_id', 'id');
+        return $this->hasManyThrough(
+            Taks::class, 
+            Team::class, 
+            'project_id', //Foreignkey users table
+            'user_id', //Foreign key tasks table
+            'id', //local jey in projects table
+            'user_id' ///user id in pivot table
+        );
     }
 
     public function task(){
