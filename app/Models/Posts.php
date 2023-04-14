@@ -27,7 +27,13 @@ class Posts extends Model
         ->withPivot('status');
     }
 
+    //Returns collection of comments
     public function comments(){
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    //Returns single comment object
+    public function comment(){
+        return $this->morphOne(Comment::class, 'commentable');
     }
 }

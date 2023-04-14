@@ -119,7 +119,7 @@ Route::get('/', function () {
     // ]);
 
     // //How to retrieve comment using Posts model
-    // $post =  Posts::find(1);
+    $post =  Posts::find(1);
 
     // //Retrieve comments
     // ///dd($post->comments);
@@ -143,12 +143,15 @@ Route::get('/', function () {
     // $video = Video::find(1);
     // dd($video->comments);
 
-    //Retrieve Commentable Model using the commentable method in Comment model.
-    $comment = Comment::find(1);
-    //dd($comment->commentable);
+    // //Retrieve Commentable Model using the commentable method in Comment model.
+    // $comment = Comment::find(1);
+    // //dd($comment->commentable);
 
-    //You can also retrieve the Commentable model with subject method in the Comment model
-    dd($comment->subject);
+    // //You can also retrieve the Commentable model with subject method in the Comment model
+    // dd($comment->subject);
+
+    //Retrieve single comment object
+    //dd($post->comment);
 
 
 
