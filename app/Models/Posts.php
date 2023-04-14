@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tag;
+use App\Models\PostTag;
 
 class Posts extends Model
 {
@@ -20,6 +21,7 @@ class Posts extends Model
 
     public function tags(){
         return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id')
+        ->using(PostTag::class)
         ->withTimestamps()
         ->withPivot('status');
     }

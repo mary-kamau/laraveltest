@@ -5,6 +5,8 @@ use  App\Models\User;
 use  App\Models\Addresses;
 use  App\Models\Posts;
 use  App\Models\Tag;
+use  App\Models\Taks;
+use  App\Models\Project;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 /*
 |--------------------------------------------------------------------------
@@ -259,8 +261,9 @@ Route::get('/posts', function() {
     //   <p>{{ $post->user->name }} </p>
     // @endforeach
 
-
     // return view('posts.index', compact('posts'));
+
+
 
 
     //MANY TO MANY RELATIONSHIP
@@ -310,7 +313,10 @@ Route::get('/posts', function() {
     //$post->tags()->sync([1,4]);
 
 
+
     //ADDING AND RETRIEVING COLUMNS IN THE PIVOT TABLE
+
+
 
     //If you roll back last migration that cretaed the pist_tag pivot table: php artisan migrat:rollback
     // and return timestamps and make migrations again, then create a Tag and attach it to a Post, the created_at and updated_at columns of the pivot table post_tag are not filled with the values for the new entry
@@ -343,22 +349,69 @@ Route::get('/posts', function() {
     //     ->withPivot('status');
     // }
 
+
+
     //HANDLE EVENTS ON ATTACH, DETACH AND SUNC IN MANY TO MANY RELATIONSHIP
 
 
 
+    // How can one fire an event when for example a tag is attached to or detached from a post?
+    // The relationship needs to be adjusted such that the pivot table(post_tag) has a model (PostTag) and the relationship is defined in this Pivot Table.
+    // Define the associated table in the model
+    //   protected $table =  'post_tag';
+    // Extend the Model with the Pivot class and not Model as the pivot in vendor/laravel/framework/database/eloquent/relations/Pivot.php already extends Model
+    //   class PostTag extends Pivot{}
+    // In the relationship definition in the Post model, create the belongstoMany relationship in the Tag Model using the PostTag class
 
+    // $post = Posts::find(2);
 
+    // $post->tags()->attach([
+    //     1 => [
+    //         'status' => 'approved'
+    //     ]
+    // ]);
+
+    // The relationship is created using the PostTag model, when a Tag is attached to the Post Model, a new record is created using the PostTag model.
+    // Thus it executes creating and created events in the PostTag model
+
+    //Overwrite the model's booted method to listen for attach(created) and detach(deleted) 
+
+    // protected static function booted(){
+    //     parent::booted();
+
+    //     static::created(
+    //         function($item){
+    //             dd($item);
+    //         }
+    //     );
+    //       static::deleted(
+    //         function($item){
+    //             dd($item);
+    //         }
+    //     );
+    // }
+
+    // $post = Posts::find(2);
+
+    // $post->tags()->attach([
+    //     1 => [
+    //         'status' => 'approved'
+    //     ]
+    // ]);
+
+    //You can use sync as well
+
+    // $post = Posts::find(2);
+
+    // $post->tags()->sync([
+    //     1 => [
+    //         'status' => 'approved'
+    //     ]
+    // ]);
+    
     $posts = Posts::with(['user', 'tags'])->get();
 
     return view('posts.index', compact('posts'));
-
-
-
-
-
-
-
 
 });
 
@@ -367,4 +420,53 @@ Route::get('/tags', function(){
 
     $tags = Tag::with('posts')->get();
     return view('tags.index', compact('tags'));
+});
+
+
+Route::get('/projects', function(){
+
+    $project =  Project::find(1);
+    return $project->tasks()->get();
+
+    //Fetch all tasks created by all the users of the project
+
+
+    // $project = Project::create([
+    //     'title' => 'Project B'
+    // ]);
+
+    // $user1= User::create([
+    //     "name" => 'User 3',
+    //     "email" => 'user3@example.com',
+    //     "password" => Hash::make('pasword'),
+    //     "project_id" => $project->id,
+    // ]);
+    // $user2= User::create([
+    //     "name" => 'User 4',
+    //     "email" => 'user4@example.com',
+    //     "password" => Hash::make('pasword'),
+    //     "project_id" => $project->id,
+    // ]);
+    // $user5= User::create([
+    //     "name" => 'User 5',
+    //     "email" => 'user5@example.com',
+    //     "password" => Hash::make('pasword'),
+    //     "project_id" => $project->id,
+    // ]);
+    // $task1 = Taks::create([
+    //     'title' => 'Task 4 for Project 2 by User 3',
+    //     'user_id' => $user1->id
+    // ]);
+    // $task2 = Taks::create([
+    //     'title' => 'Task 4  for Project 2 by User 3',
+    //     'user_id' => $user1->id
+    // ]);
+    // $task3 = Taks::create([
+    //     'title' => 'Task 5  for Project 2 by User 4',
+    //     'user_id' => $user2->id
+    // ]);
+    // $task3 = Taks::create([
+    //     'title' => 'Task 6  for Project 2 by User 5 ',
+    //     'user_id' => $user5->id
+    // ]);
 });

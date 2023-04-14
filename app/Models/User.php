@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Addresses;
 use App\Models\Posts;
 use App\Events\UserCreated;
+use App\Models\Project;
+use App\Models\Taks;
 
 class User extends Authenticatable
 {
@@ -25,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'project_id'
     ];
 
     /**
@@ -60,7 +63,19 @@ class User extends Authenticatable
         return $this->hasMany(Posts::class);
     }
 
+    public function project(){
+        return $this->belongsTo(Project::class);
+    }
+
+    public function tasks(){
+        return $this->hasMany(Taks::class);
+    }
+
+
+
     //LARAVEL OBSERVERS & MODEL EVENTS
+
+
 
     //Model Events allow you to execute code in some points of the Model Lifecycle.
     //There are eleven events in the model lifecycle, these are:
@@ -83,7 +98,11 @@ class User extends Authenticatable
     
     //How to apply?
 
+
+
+
     //1. USING EVENT LISTENERS (to apply model lifecycle events)
+
 
     //Let's say you want to fire an event when a User is created perhaps to send a welcome email or so.
 
@@ -143,20 +162,37 @@ class User extends Authenticatable
     //For other cases you can use the Overwriting the Model's boot method or observers.
 
 
+
+
     //2. OVERWRITE BOOT FUNCTION OF MODEL  (to apply model lifecycle events)
 
-    protected static function booted(){
-        parent::booted();
+    // protected static function booted(){
+    //     parent::booted();
 
-        static::created(
-            function($user){
-                dd("From  Boot method", $user);
-            }
-        ); //call then lifecycle event method e.g updated(), deleted(), restored()
-        //add a closure function that accepts the model as shown above
-    }
+    //     static::created(
+    //         function($user){
+    //             dd("From  Boot method", $user);
+    //         }
+    //     ); //call then lifecycle event method e.g updated(), deleted(), restored()
+    //     //add a closure function that accepts the model as shown above
+    // }
 
-    //However if 
+    //However the more lifecycle events you apply in the booted function, the function gets biugger and you might want to move the events 
+    //into a dedicated class hence Observers.
+
+    
+
+
+    //3. OBSERVERS (Applying Events with Observers)
+
+    // Observers allow you to group all the events into a single class
+
+    //php artisan make:observer UserObserver --model=User
+
+    //Register the User Observer in the service provider, app\Providers\EventServiceProvider.php, boot method
+
+    
+
 
 
 
